@@ -6,6 +6,20 @@ const prompt = require("prompt-sync")();
 
 const Customer = require("./models/customer");
 
+const createCustomer = async (nameCustumer, ageCustumer) => {
+  const customerData = {
+    name: nameCustumer,
+    age: ageCustumer,
+  };
+  const customer = await Customer.create(customerData);
+  console.log("New customer: ", customer);
+};
+
+const findCustomer = async () => {
+  const customer = await Customer.find({});
+  console.log("All todos:", customer);
+};
+
 const showMenu = async () => {
   let running = true;
 
@@ -23,15 +37,19 @@ const showMenu = async () => {
     switch (choice) {
       case "1":
         console.log("opcion Crear");
+        const name = prompt("Customer name: ");
+        const ageInput = prompt("Customer age: ");
+        const age = Number(ageInput);
+        await createCustomer(name, age);
         break;
       case "2":
-        console.log("opcion update");
+        await findCustomer();
         break;
       case "3":
-        console.log("opcion read");
+        await updateCustomer();
         break;
       case "4":
-        console.log("opcion delete");
+        await deleteCustomer();
         break;
       case "5":
         running = false;
@@ -49,6 +67,7 @@ const main = async () => {
   console.log("Connected to MongoDB");
 
   await showMenu();
+  
   await mongoose.disconnect();
   console.log("Disconnected from MongoDB");
   // Close our app, bringing us back to the command line.
