@@ -1,4 +1,10 @@
+const dotenv = require("dotenv");
+dotenv.config();
+const mongoose = require("mongoose");
+
 const prompt = require("prompt-sync")();
+
+const Customer = require("./models/customer");
 
 const username = prompt("What is your name? ");
 
